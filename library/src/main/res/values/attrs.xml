@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CircularMusicProgressBar">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color|reference" />
+        <attr name="border_overlay" format="boolean" />
+        <attr name="fill_color" format="color|reference" />
+        <attr name="progress_color" format="color|reference" />
+        <attr name="centercircle_diammterer" format="float|reference" />
+        <attr name="progress_startAngle" format="float|reference" />
+
+    </declare-styleable>
+</resources>

@@ -1,0 +1,111 @@
+*.iml
+.gradle
+/local.properties
+/.idea/*
+.DS_Store
+build/*
+/lib/UserVoiceSDK/build/*
+/lib/Android-Typeface/build/*
+/lib/Android-Showcase/build/*
+
+##########
+#built application files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# generated files
+bin/
+gen/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Windows thumbnail db
+Thumbs.db
+
+# OSX files
+.DS_Store
+
+# Eclipse project files
+.classpath
+.project
+
+# Android Studio
+.idea
+#.idea/workspace.xml - remove # and delete .idea if it better suit your needs.
+.gradle
+build/
+
+.hprof
+*.hprof
+
+/*/out
+/*/*/build
+/*/*/production
+*.iws
+*.ipr
+*~
+*.swp
+import-summary.txt
+
+# built application files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# generated files
+bin/
+gen/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Eclipse project files
+.classpath
+.project
+
+# Signing files
+.signing/
+
+# Gradle generated files
+.gradle/
+
+# Crashlytics configuations
+com_crashlytics_export_strings.xml
+
+# Android Studio
+.idea/
+/*/local.properties
+/*/out
+/*/build/
+/*/*/build
+/*/*/production
+/build
+/captures
+*.iml
+*.iws
+*.ipr
+*~
+*.swp
+import-summary.txt
+gradle.properties
+
+# OS-specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
