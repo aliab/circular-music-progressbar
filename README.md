@@ -87,6 +87,15 @@ Limitations
 * If you use an image loading library like Picasso or Glide, you need to disable their fade animations to avoid messed up images. For Picasso use the `noFade()` option, for Glide use `dontAnimate()`. If you want to keep the fadeIn animation, you have to fetch the image into a `Target` and apply a custom animation yourself when receiving the `Bitmap`.
 * Using a `TransitionDrawable` with `CircleImageView` doesn't work properly and leads to messed up images.
 
+## Todo
+
+ * Animation interpolator setter
+ * Animation disable/enable method
+ * Buffering mode animation
+ * Drag to seek listener
+ * change thickness of borderes independently
+ * support shadow/glow
+
 ## Changelog
 
 ### v1.0.0
