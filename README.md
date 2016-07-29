@@ -1,4 +1,6 @@
 # Android Circular Music ProgressBar
+[![](https://jitpack.io/v/aliab/circular-music-progressbar.svg)](https://jitpack.io/#aliab/circular-music-progressbar)
+
 
 ![Hero Image](https://raw.githubusercontent.com/aliab/circular-music-progressbar/master/art/splash.jpg)
 
@@ -10,9 +12,21 @@ This Circular Progress bar is a designed and made for music players that need be
 
 To use Circular Music ProgressBar you must add it as a dependency in your Gradle build:
 
+Step 1. Add the JitPack repository to your build file
+Add it in your root build.gradle at the end of repositories:
+
+```groovy
+allprojects {
+		repositories {
+			...
+			maven { url "https://jitpack.io" }
+		}
+	}
+```
+Step 2. Add the dependency
 ```groovy
 dependencies {
-    compile 'info.abdolahi:circular-music-progressbar:1.0'
+    compile 'com.github.aliab:circular-music-progressbar:v1.0'
 }
 ```
 
