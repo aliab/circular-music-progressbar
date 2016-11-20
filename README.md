@@ -74,9 +74,11 @@ Then add the view to your layout:
 
 | Name | Description |
 |:----:|:----:|:-------:|:-----------:|
-|setValue(float)| change value of progress with animation|
-|setBorderProgressColor(Color)| set progressbar active state color |
-|setBorderColor(Color)| set progressbar non-active state color |
+|setValue(float)| Change value of progress with animation|
+|setBorderProgressColor(Color)| Set progressbar active state color |
+|setBorderColor(Color)| Set progressbar non-active state color |
+|setProgressAnimationState(boolean)| Change state of progress value animation. set it to 'false' if you don't want any animation|
+|setProgressAnimatorInterpolator(TimeInterpolator)| Change interpolator of animation to get more effect on animation|
 
 Note: Because I extended ImageView you can use all ImageView public methods too.
 

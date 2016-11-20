@@ -1,5 +1,6 @@
 package info.abdolahi;
 
+import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -71,6 +72,7 @@ public class CircularMusicProgressBar extends ImageView {
     private boolean mBorderOverlay;
     private boolean mDisableCircularTransformation;
     float mBaseStartAngle = 0f;
+    private boolean animationState = true;
 
     public CircularMusicProgressBar(Context context) {
         super(context);
@@ -173,12 +175,18 @@ public class CircularMusicProgressBar extends ImageView {
 
     public void setValue(float newValue) {
 
-        if (mValueAnimator.isRunning()) {
-            mValueAnimator.cancel();
-        }
+        if (animationState) {
 
-        mValueAnimator.setFloatValues(mProgressValue, newValue);
-        mValueAnimator.start();
+            if (mValueAnimator.isRunning()) {
+                mValueAnimator.cancel();
+            }
+
+            mValueAnimator.setFloatValues(mProgressValue, newValue);
+            mValueAnimator.start();
+        } else {
+            mProgressValue = newValue;
+            invalidate();
+        }
 
     }
 
@@ -198,6 +206,24 @@ public class CircularMusicProgressBar extends ImageView {
     public void setPaddingRelative(int start, int top, int end, int bottom) {
         super.setPaddingRelative(start, top, end, bottom);
         setup();
+    }
+
+    /**
+     * Change state of progress value animation. set it to 'false' if you don't want any animation
+     *
+     * @param state boolean state of progress animation. if set to false, no animation happen whenever value is changed
+     */
+    public void setProgressAnimationState(boolean state) {
+        animationState = state;
+    }
+
+    /**
+     * change interpolator of animation to get more effect on animation
+     *
+     * @param interpolator animation interpolator
+     */
+    public void setProgressAnimatorInterpolator(TimeInterpolator interpolator) {
+        mValueAnimator.setInterpolator(interpolator);
     }
 
     public int getBorderColor() {
