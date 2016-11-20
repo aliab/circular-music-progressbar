@@ -91,14 +91,19 @@ Limitations
 
 ## Todo
 
- * Animation interpolator setter
- * Animation disable/enable method
+ * ~~Animation interpolator setter~~
+ * ~~Animation disable/enable method~~
  * Buffering mode animation
  * Drag to seek listener
  * change thickness of borderes independently
  * support shadow/glow
 
 ## Changelog
+
+### v1.1.0
+
+ * public method for change `animation interpolatpor`
+ * public method for disable aniamtion
 
 ### v1.0.0
 
