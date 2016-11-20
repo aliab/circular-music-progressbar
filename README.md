@@ -26,7 +26,7 @@ allprojects {
 Step 2. Add the dependency
 ```groovy
 dependencies {
-    compile 'com.github.aliab:circular-music-progressbar:v1.1.0'
+    compile 'com.github.aliab:circular-music-progressbar:v1.1.1'
 }
 ```
 
@@ -99,6 +99,10 @@ Limitations
  * support shadow/glow
 
 ## Changelog
+
+### v1.1.1
+
+ * Fix Force Close when add view dinamically
 
 ### v1.1.0
 
