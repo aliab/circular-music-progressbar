@@ -96,6 +96,12 @@ public class CircularMusicProgressBar extends ImageView {
         mProgressColor = a.getColor(R.styleable.CircularMusicProgressBar_progress_color, DEFAULT_PROGRESS_COLOR);
         mBaseStartAngle = a.getFloat(R.styleable.CircularMusicProgressBar_progress_startAngle, 0);
 
+        a.recycle();
+        init();
+    }
+
+    private void init() {
+
         // init animator
         mValueAnimator = ValueAnimator.ofFloat(0, mProgressValue);
         mValueAnimator.setDuration(DEFAULT_ANIMATION_TIME);
@@ -107,11 +113,6 @@ public class CircularMusicProgressBar extends ImageView {
             }
         });
 
-        a.recycle();
-        init();
-    }
-
-    private void init() {
         super.setScaleType(SCALE_TYPE);
         mReady = true;
 
