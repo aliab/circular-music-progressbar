@@ -102,8 +102,12 @@ Limitations
 
 ### v1.1.0
 
- * public method for change `animation interpolatpor`
- * public method for disable aniamtion
+ * Public method for change `animation interpolator`
+ * Public method to disable animation
+
+### v1.0.1
+
+ * Remove `AllowBackup` from `manifest` of library
 
 ### v1.0.0
 
