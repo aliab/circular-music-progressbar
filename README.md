@@ -26,7 +26,7 @@ allprojects {
 Step 2. Add the dependency
 ```groovy
 dependencies {
-    compile 'com.github.aliab:circular-music-progressbar:v1.1.1'
+    compile 'com.github.aliab:circular-music-progressbar:v1.2.0'
 }
 ```
 
@@ -45,7 +45,7 @@ Then add the view to your layout:
         app:centercircle_diammterer="1"
         app:progress_color="#80CBC4"
         app:progress_startAngle="40"
-		app:draw_anticlockwise="false"/>
+	app:draw_anticlockwise="false"/>
 ```
 ## XML attributes
 
@@ -57,7 +57,7 @@ Then add the view to your layout:
         app:centercircle_diammterer="1"
         app:progress_color="#80CBC4"
         app:progress_startAngle="40"
-		app:draw_anticlockwise="true"
+	app:draw_anticlockwise="true"
         ...
          />
 ```
@@ -71,6 +71,7 @@ Then add the view to your layout:
 |centercircle_diammterer|Float|0.805f| Number between 0 and 1, that change diammeter of album art image|
 |progress_color|Color|Color.BLUE| ProgressBar active state color |
 |progress_startAngle|Float| 0 | Number between 0 and 360 that describe Start angle of progress bar active state |
+|draw_anticlockwise|Boolean| false | If set to true, progress will be Anti-Clockwise |
 
 ## Public Methods
 
@@ -95,16 +96,21 @@ Limitations
 
  * ~~Animation interpolator setter~~
  * ~~Animation disable/enable method~~
+ * ~~Support Anti-Clockwise progress~~
  * Buffering mode animation
  * Drag to seek listener
- * change thickness of borderes independently
- * support shadow/glow
+ * Change thickness of borderes independently
+ * Support shadow/glow
 
 ## Changelog
 
+### v1.2.0
+
+ * Support Anti-Clockwise progress
+
 ### v1.1.1
 
- * Fix Force Close when add view dinamically
+ * Fix Force Close when add view dynamically
 
 ### v1.1.0
 
