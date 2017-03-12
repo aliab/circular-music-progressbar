@@ -45,7 +45,7 @@ Then add the view to your layout:
         app:centercircle_diammterer="1"
         app:progress_color="#80CBC4"
         app:progress_startAngle="40"
-	app:draw_anticlockwise="false"/>
+		app:draw_anticlockwise="false"/>
 ```
 ## XML attributes
 
@@ -57,7 +57,7 @@ Then add the view to your layout:
         app:centercircle_diammterer="1"
         app:progress_color="#80CBC4"
         app:progress_startAngle="40"
-	app:draw_anticlockwise="true"
+		app:draw_anticlockwise="true"
         ...
          />
 ```
