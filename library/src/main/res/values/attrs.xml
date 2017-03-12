@@ -4,6 +4,7 @@
         <attr name="border_width" format="dimension" />
         <attr name="border_color" format="color|reference" />
         <attr name="border_overlay" format="boolean" />
+        <attr name="draw_anticlockwise" format="boolean" />
         <attr name="fill_color" format="color|reference" />
         <attr name="progress_color" format="color|reference" />
         <attr name="centercircle_diammterer" format="float|reference" />
