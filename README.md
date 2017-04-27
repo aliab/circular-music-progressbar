@@ -76,7 +76,7 @@ Then add the view to your layout:
 ## Public Methods
 
 | Name | Description |
-|:----:|:----:|:-------:|:-----------:|
+|:----:|:----:|
 |setValue(float)| Change value of progress with animation|
 |setBorderProgressColor(Color)| Set progressbar active state color |
 |setBorderColor(Color)| Set progressbar non-active state color |
