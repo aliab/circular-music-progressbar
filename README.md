@@ -2,7 +2,6 @@
 [![](https://jitpack.io/v/aliab/circular-music-progressbar.svg)](https://jitpack.io/#aliab/circular-music-progressbar)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-circular--music--progressbar-green.svg?style=true)](https://android-arsenal.com/details/1/4000)
 
-![Hero Image](https://raw.githubusercontent.com/aliab/circular-music-progressbar/master/art/splash.jpg)
 
 ## Description
 
