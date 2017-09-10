@@ -27,7 +27,7 @@ allprojects {
 Step 2. Add the dependency
 ```groovy
 dependencies {
-    compile 'com.github.aliab:circular-music-progressbar:v1.2.0'
+    compile 'com.github.aliab:circular-music-progressbar:v1.3.0'
 }
 ```
 
@@ -46,7 +46,7 @@ Then add the view to your layout:
         app:centercircle_diammterer="1"
         app:progress_color="#80CBC4"
         app:progress_startAngle="40"
-		app:draw_anticlockwise="false"/>
+	app:draw_anticlockwise="false"/>
 ```
 ## XML attributes
 
@@ -58,7 +58,7 @@ Then add the view to your layout:
         app:centercircle_diammterer="1"
         app:progress_color="#80CBC4"
         app:progress_startAngle="40"
-		app:draw_anticlockwise="true"
+	app:draw_anticlockwise="true"
         ...
          />
 ```
@@ -79,10 +79,12 @@ Then add the view to your layout:
 | Name | Description |
 |:----:|:----:|
 |setValue(float)| Change value of progress with animation|
+|setValueWithNoAnimation(float)| Change value of progress with animation|
 |setBorderProgressColor(Color)| Set progressbar active state color |
 |setBorderColor(Color)| Set progressbar non-active state color |
 |setProgressAnimationState(boolean)| Change state of progress value animation. set it to 'false' if you don't want any animation|
 |setProgressAnimatorInterpolator(TimeInterpolator)| Change interpolator of animation to get more effect on animation|
+|setOnCircularBarChangeListener(OnCircularSeekBarChangeListener listener)|Get an update if user want to seek to position or click on image|
 
 Note: Because I extended ImageView you can use all ImageView public methods too.
 
@@ -98,12 +100,16 @@ Limitations
  * ~~Animation interpolator setter~~
  * ~~Animation disable/enable method~~
  * ~~Support Anti-Clockwise progress~~
+ * ~~Drag to seek listener~~
  * Buffering mode animation
- * Drag to seek listener
  * Change thickness of borderes independently
  * Support shadow/glow
 
 ## Changelog
+### v1.3.0
+
+ * Support drag to specific position
+ * Some measurement bug fix
 
 ### v1.2.0
 
@@ -134,7 +140,7 @@ Limitations
    
 The MIT License (MIT)
 
-Copyright (c) 2016 Ali Abdolahi
+Copyright (c) 2017 Ali Abdolahi
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
