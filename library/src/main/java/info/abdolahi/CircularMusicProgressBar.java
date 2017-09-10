@@ -603,9 +603,9 @@ public class CircularMusicProgressBar extends AppCompatImageView {
 
         int angle;
         if (mDrawAntiClockwise) {
-            angle = (int) ((180.0 * Math.atan2(x, y) / Math.PI) + -mBaseStartAngle);
+            angle = (int) ((180.0 * Math.atan2(x, y) / Math.PI) - mBaseStartAngle);
         } else {
-            angle = (int) ((180.0 * Math.atan2(y, x) / Math.PI) + -mBaseStartAngle);
+            angle = (int) ((180.0 * Math.atan2(y, x) / Math.PI) - mBaseStartAngle);
         }
         angle = ((angle > 0) ? angle : 360 + angle);
         float intoPercent = angle * 100 / 360;
