@@ -479,6 +479,7 @@ public class CircularMusicProgressBar extends AppCompatImageView {
         if (!mBorderOverlay && mBorderWidth > 0) {
             mDrawableRect.inset(mBorderWidth, mBorderWidth);
         }
+
         mDrawableRadius = Math.min(mDrawableRect.height() / 2, mDrawableRect.width() / 2);
 
         if (mInnrCircleDiammeter > 1) mInnrCircleDiammeter = 1;
@@ -488,6 +489,30 @@ public class CircularMusicProgressBar extends AppCompatImageView {
         applyColorFilter();
         updateShaderMatrix();
         invalidate();
+    }
+
+
+    private static int getMeasurementSize(int measureSpec, int defaultSize) {
+        int mode = MeasureSpec.getMode(measureSpec);
+        int size = MeasureSpec.getSize(measureSpec);
+        switch (mode) {
+            case MeasureSpec.EXACTLY:
+                return size;
+
+            case MeasureSpec.AT_MOST:
+                return Math.min(defaultSize, size);
+
+            case MeasureSpec.UNSPECIFIED:
+            default:
+                return defaultSize;
+        }
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int width = getMeasurementSize(widthMeasureSpec, 600);
+        int height = getMeasurementSize(heightMeasureSpec, 600);
+        setMeasuredDimension(width, height);
     }
 
     private RectF calculateBounds() {

@@ -14,7 +14,7 @@
 
     <info.abdolahi.CircularMusicProgressBar
         android:id="@+id/album_art"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
