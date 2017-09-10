@@ -32,15 +32,14 @@ public class CircularMusicProgressBar extends AppCompatImageView {
 
     private static final Bitmap.Config BITMAP_CONFIG = Bitmap.Config.ARGB_8888;
     private static final int COLORDRAWABLE_DIMENSION = 2;
-    private static float DEFAULT_INNTER_DAIMMETER_FRACTION = 0.805f;
     private static final int DEFAULT_ANIMATION_TIME = 800;
-
     private static final int DEFAULT_BORDER_WIDTH = 0;
     private static final int DEFAULT_BORDER_COLOR = Color.BLACK;
     private static final int DEFAULT_FILL_COLOR = Color.TRANSPARENT;
     private static final int DEFAULT_PROGRESS_COLOR = Color.BLUE;
     private static final boolean DEFAULT_BORDER_OVERLAY = false;
-
+    private static final boolean DEFAULT_DRAW_ANTI_CLOCKWISE = false;
+    private static float DEFAULT_INNTER_DAIMMETER_FRACTION = 0.805f;
     private final RectF mDrawableRect = new RectF();
     private final RectF mBorderRect = new RectF();
 
@@ -48,30 +47,26 @@ public class CircularMusicProgressBar extends AppCompatImageView {
     private final Paint mBitmapPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint mBorderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint mFillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-
+    float mBaseStartAngle = 0f;
     private int mBorderColor = DEFAULT_BORDER_COLOR;
     private int mBorderWidth = DEFAULT_BORDER_WIDTH;
     private int mFillColor = DEFAULT_FILL_COLOR;
     private int mProgressColor = DEFAULT_PROGRESS_COLOR;
-
     private Bitmap mBitmap;
     private BitmapShader mBitmapShader;
     private int mBitmapWidth;
     private int mBitmapHeight;
     private float mInnrCircleDiammeter;
-
     private float mDrawableRadius;
     private float mBorderRadius;
     private float mProgressValue = 0;
-
     private ValueAnimator mValueAnimator;
     private ColorFilter mColorFilter;
-
     private boolean mReady;
     private boolean mSetupPending;
     private boolean mBorderOverlay;
+    private boolean mDrawAntiClockwise;
     private boolean mDisableCircularTransformation;
-    float mBaseStartAngle = 0f;
     private boolean animationState = true;
 
     public CircularMusicProgressBar(Context context) {
@@ -91,6 +86,7 @@ public class CircularMusicProgressBar extends AppCompatImageView {
         mBorderWidth = a.getDimensionPixelSize(R.styleable.CircularMusicProgressBar_border_width, DEFAULT_BORDER_WIDTH);
         mBorderColor = a.getColor(R.styleable.CircularMusicProgressBar_border_color, DEFAULT_BORDER_COLOR);
         mBorderOverlay = a.getBoolean(R.styleable.CircularMusicProgressBar_border_overlay, DEFAULT_BORDER_OVERLAY);
+        mDrawAntiClockwise = a.getBoolean(R.styleable.CircularMusicProgressBar_draw_anticlockwise, DEFAULT_DRAW_ANTI_CLOCKWISE);
         mFillColor = a.getColor(R.styleable.CircularMusicProgressBar_fill_color, DEFAULT_FILL_COLOR);
         mInnrCircleDiammeter = a.getFloat(R.styleable.CircularMusicProgressBar_centercircle_diammterer, DEFAULT_INNTER_DAIMMETER_FRACTION);
         mProgressColor = a.getColor(R.styleable.CircularMusicProgressBar_progress_color, DEFAULT_PROGRESS_COLOR);
@@ -162,8 +158,9 @@ public class CircularMusicProgressBar extends AppCompatImageView {
             canvas.drawArc(mBorderRect, 0, 360, false, mBorderPaint);
         }
         mBorderPaint.setColor(mProgressColor);
+
         float sweetAngle = mProgressValue / 100 * 360;
-        canvas.drawArc(mBorderRect, 0, sweetAngle, false, mBorderPaint);
+        canvas.drawArc(mBorderRect, 0, mDrawAntiClockwise ? -sweetAngle : sweetAngle, false, mBorderPaint);
 
         canvas.restore();
 
@@ -175,7 +172,6 @@ public class CircularMusicProgressBar extends AppCompatImageView {
     }
 
     public void setValue(float newValue) {
-
         if (animationState) {
 
             if (mValueAnimator.isRunning()) {
@@ -231,16 +227,6 @@ public class CircularMusicProgressBar extends AppCompatImageView {
         return mBorderColor;
     }
 
-
-    public void setBorderProgressColor(@ColorInt int borderColor) {
-        if (borderColor == mProgressColor) {
-            return;
-        }
-
-        mProgressColor = borderColor;
-        invalidate();
-    }
-
     public void setBorderColor(@ColorInt int borderColor) {
         if (borderColor == mBorderColor) {
             return;
@@ -248,6 +234,15 @@ public class CircularMusicProgressBar extends AppCompatImageView {
 
         mBorderColor = borderColor;
         mBorderPaint.setColor(mBorderColor);
+        invalidate();
+    }
+
+    public void setBorderProgressColor(@ColorInt int borderColor) {
+        if (borderColor == mProgressColor) {
+            return;
+        }
+
+        mProgressColor = borderColor;
         invalidate();
     }
 
@@ -365,6 +360,11 @@ public class CircularMusicProgressBar extends AppCompatImageView {
     }
 
     @Override
+    public ColorFilter getColorFilter() {
+        return mColorFilter;
+    }
+
+    @Override
     public void setColorFilter(ColorFilter cf) {
         if (cf == mColorFilter) {
             return;
@@ -373,11 +373,6 @@ public class CircularMusicProgressBar extends AppCompatImageView {
         mColorFilter = cf;
         applyColorFilter();
         invalidate();
-    }
-
-    @Override
-    public ColorFilter getColorFilter() {
-        return mColorFilter;
     }
 
     private void applyColorFilter() {

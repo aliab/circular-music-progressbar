@@ -2,7 +2,6 @@
 [![](https://jitpack.io/v/aliab/circular-music-progressbar.svg)](https://jitpack.io/#aliab/circular-music-progressbar)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-circular--music--progressbar-green.svg?style=true)](https://android-arsenal.com/details/1/4000)
 
-![Hero Image](https://raw.githubusercontent.com/aliab/circular-music-progressbar/master/art/splash.jpg)
 
 ## Description
 
@@ -26,7 +25,7 @@ allprojects {
 Step 2. Add the dependency
 ```groovy
 dependencies {
-    compile 'com.github.aliab:circular-music-progressbar:v1.1.1'
+    compile 'com.github.aliab:circular-music-progressbar:v1.2.0'
 }
 ```
 
@@ -44,7 +43,8 @@ Then add the view to your layout:
         app:border_width="2dp"
         app:centercircle_diammterer="1"
         app:progress_color="#80CBC4"
-        app:progress_startAngle="40" />
+        app:progress_startAngle="40"
+		app:draw_anticlockwise="false"/>
 ```
 ## XML attributes
 
@@ -56,6 +56,7 @@ Then add the view to your layout:
         app:centercircle_diammterer="1"
         app:progress_color="#80CBC4"
         app:progress_startAngle="40"
+		app:draw_anticlockwise="true"
         ...
          />
 ```
@@ -69,11 +70,12 @@ Then add the view to your layout:
 |centercircle_diammterer|Float|0.805f| Number between 0 and 1, that change diammeter of album art image|
 |progress_color|Color|Color.BLUE| ProgressBar active state color |
 |progress_startAngle|Float| 0 | Number between 0 and 360 that describe Start angle of progress bar active state |
+|draw_anticlockwise|Boolean| false | If set to true, progress will be Anti-Clockwise |
 
 ## Public Methods
 
 | Name | Description |
-|:----:|:----:|:-------:|:-----------:|
+|:----:|:----:|
 |setValue(float)| Change value of progress with animation|
 |setBorderProgressColor(Color)| Set progressbar active state color |
 |setBorderColor(Color)| Set progressbar non-active state color |
@@ -93,16 +95,21 @@ Limitations
 
  * ~~Animation interpolator setter~~
  * ~~Animation disable/enable method~~
+ * ~~Support Anti-Clockwise progress~~
  * Buffering mode animation
  * Drag to seek listener
- * change thickness of borderes independently
- * support shadow/glow
+ * Change thickness of borderes independently
+ * Support shadow/glow
 
 ## Changelog
 
+### v1.2.0
+
+ * Support Anti-Clockwise progress
+
 ### v1.1.1
 
- * Fix Force Close when add view dinamically
+ * Fix Force Close when add view dynamically
 
 ### v1.1.0
 
@@ -122,17 +129,27 @@ Limitations
 
 ## License
 ```
-   Copyright (C) 2016 Ali Abdolahi
+   
+The MIT License (MIT)
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
+Copyright (c) 2016 Ali Abdolahi
 
-       http://www.apache.org/licenses/LICENSE-2.0
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
 ```
