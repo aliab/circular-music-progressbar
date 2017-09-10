@@ -22,6 +22,8 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 
 import info.abdolahi.circularmusicbar.R;
 
@@ -68,6 +70,8 @@ public class CircularMusicProgressBar extends AppCompatImageView {
     private boolean mDrawAntiClockwise;
     private boolean mDisableCircularTransformation;
     private boolean animationState = true;
+    private OnCircularSeekBarChangeListener onChangeListener;
+
 
     public CircularMusicProgressBar(Context context) {
         super(context);
@@ -98,14 +102,15 @@ public class CircularMusicProgressBar extends AppCompatImageView {
 
     private void init() {
 
+        setupGestureLitener(getContext());
+
         // init animator
         mValueAnimator = ValueAnimator.ofFloat(0, mProgressValue);
         mValueAnimator.setDuration(DEFAULT_ANIMATION_TIME);
         mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                mProgressValue = (float) valueAnimator.getAnimatedValue();
-                invalidate();
+                setValueWithNoAnimation((float) valueAnimator.getAnimatedValue());
             }
         });
 
@@ -128,6 +133,10 @@ public class CircularMusicProgressBar extends AppCompatImageView {
         if (scaleType != SCALE_TYPE) {
             throw new IllegalArgumentException(String.format("ScaleType %s not supported.", scaleType));
         }
+    }
+
+    public void setOnCircularBarChangeListener(OnCircularSeekBarChangeListener listener) {
+        this.onChangeListener = listener;
     }
 
     @Override
@@ -157,6 +166,7 @@ public class CircularMusicProgressBar extends AppCompatImageView {
             mBorderPaint.setColor(mBorderColor);
             canvas.drawArc(mBorderRect, 0, 360, false, mBorderPaint);
         }
+
         mBorderPaint.setColor(mProgressColor);
 
         float sweetAngle = mProgressValue / 100 * 360;
@@ -181,10 +191,21 @@ public class CircularMusicProgressBar extends AppCompatImageView {
             mValueAnimator.setFloatValues(mProgressValue, newValue);
             mValueAnimator.start();
         } else {
-            mProgressValue = newValue;
-            invalidate();
+            setValueWithNoAnimation(newValue, false);
         }
 
+    }
+
+    public void setValueWithNoAnimation(float newValue) {
+        setValueWithNoAnimation(newValue, false);
+    }
+
+    public void setValueWithNoAnimation(float newValue, boolean fromUser) {
+        if (onChangeListener != null) {
+            onChangeListener.onProgressChanged(this, (int) newValue, fromUser);
+        }
+        mProgressValue = newValue;
+        invalidate();
     }
 
     @Override
@@ -503,4 +524,102 @@ public class CircularMusicProgressBar extends AppCompatImageView {
     }
 
 
+    /**
+     * ------------------------------------------
+     * ------------------------------------------
+     * ------------ All Things about touch ------
+     * ------------------------------------------
+     * ------------------------------------------
+     */
+
+    private GestureDetector gestureListener;
+
+    public void setupGestureLitener(Context context) {
+        gestureListener = new GestureDetector(context, new GestureDetector.OnGestureListener() {
+
+            @Override
+            public boolean onDown(MotionEvent motionEvent) {
+                if (computeInArea(motionEvent.getX(), motionEvent.getY())) {
+                    getParent().requestDisallowInterceptTouchEvent(true);
+                    if (onChangeListener != null) {
+                        onChangeListener.onClick(CircularMusicProgressBar.this);
+                    }
+                    postInvalidate();
+                    return true;
+                } else if (computeAndSetAngle(motionEvent.getX(), motionEvent.getY())) {
+                    return true;
+                }
+                return false;
+            }
+
+            @Override
+            public void onShowPress(MotionEvent motionEvent) {
+            }
+
+            @Override
+            public boolean onSingleTapUp(MotionEvent motionEvent) {
+                endGesture();
+                return false;
+            }
+
+            @Override
+            public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+                computeAndSetAngle(motionEvent1.getX(), motionEvent1.getY());
+                postInvalidate();
+                return true;
+            }
+
+            @Override
+            public void onLongPress(MotionEvent motionEvent) {
+                if (onChangeListener != null) {
+                    onChangeListener.onLongPress(CircularMusicProgressBar.this);
+                }
+            }
+
+            @Override
+            public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+                return false;
+            }
+        });
+    }
+
+    private boolean computeInArea(float x, float y) {
+        x -= getWidth() / 2;
+        y -= getHeight() / 2;
+        return (Math.sqrt(x * x + y * y) <= ((mDrawableRadius / 3) * 2));
+    }
+
+    private boolean computeAndSetAngle(float x, float y) {
+
+        float circleDiameter = mDrawableRadius + mBorderWidth;
+
+        x -= getWidth() / 2;
+        y -= getHeight() / 2;
+
+        double radius = Math.sqrt(x * x + y * y);
+        if (radius > circleDiameter || radius < ((mDrawableRadius / 3) * 2)) {
+            return false;
+        }
+
+        int angle;
+        if (mDrawAntiClockwise) {
+            angle = (int) ((180.0 * Math.atan2(x, y) / Math.PI) + -mBaseStartAngle);
+        } else {
+            angle = (int) ((180.0 * Math.atan2(y, x) / Math.PI) + -mBaseStartAngle);
+        }
+        angle = ((angle > 0) ? angle : 360 + angle);
+        float intoPercent = angle * 100 / 360;
+        setValueWithNoAnimation(intoPercent, true);
+        return true;
+    }
+
+    private void endGesture() {
+        getParent().requestDisallowInterceptTouchEvent(false);
+        postInvalidate();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return gestureListener.onTouchEvent(event);
+    }
 }

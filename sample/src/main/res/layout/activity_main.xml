@@ -22,8 +22,9 @@
         app:border_color="#00796B"
         app:border_width="2dp"
         app:centercircle_diammterer=".97"
+        app:draw_anticlockwise="false"
         app:progress_color="#80CBC4"
-        app:progress_startAngle="40" />
+        app:progress_startAngle="-90" />
 
 
     <TextView
