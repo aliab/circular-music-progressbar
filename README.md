@@ -7,7 +7,7 @@
 
 ## Description
 
-This Circular Progress bar is a designed and made for music players that need beautiful music progress bar.
+This Circular Progress bar is a designed and made for music players that need beautiful music progress bar. [Choosed for best of the day at uplabs.com](https://www.uplabs.com/posts/android-circular-music-progressbar)
 
 ## Usage
 
