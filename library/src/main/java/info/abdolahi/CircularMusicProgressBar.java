@@ -87,14 +87,14 @@ public class CircularMusicProgressBar extends AppCompatImageView {
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CircularMusicProgressBar, defStyle, 0);
 
-        mBorderWidth = a.getDimensionPixelSize(R.styleable.CircularMusicProgressBar_border_width, DEFAULT_BORDER_WIDTH);
-        mBorderColor = a.getColor(R.styleable.CircularMusicProgressBar_border_color, DEFAULT_BORDER_COLOR);
-        mBorderOverlay = a.getBoolean(R.styleable.CircularMusicProgressBar_border_overlay, DEFAULT_BORDER_OVERLAY);
-        mDrawAntiClockwise = a.getBoolean(R.styleable.CircularMusicProgressBar_draw_anticlockwise, DEFAULT_DRAW_ANTI_CLOCKWISE);
-        mFillColor = a.getColor(R.styleable.CircularMusicProgressBar_fill_color, DEFAULT_FILL_COLOR);
-        mInnrCircleDiammeter = a.getFloat(R.styleable.CircularMusicProgressBar_centercircle_diammterer, DEFAULT_INNTER_DAIMMETER_FRACTION);
-        mProgressColor = a.getColor(R.styleable.CircularMusicProgressBar_progress_color, DEFAULT_PROGRESS_COLOR);
-        mBaseStartAngle = a.getFloat(R.styleable.CircularMusicProgressBar_progress_startAngle, 0);
+        mBorderWidth = a.getDimensionPixelSize(R.styleable.CircularMusicProgressBar_cmp_border_width, DEFAULT_BORDER_WIDTH);
+        mBorderColor = a.getColor(R.styleable.CircularMusicProgressBar_cmp_border_color, DEFAULT_BORDER_COLOR);
+        mBorderOverlay = a.getBoolean(R.styleable.CircularMusicProgressBar_cmp_border_overlay, DEFAULT_BORDER_OVERLAY);
+        mDrawAntiClockwise = a.getBoolean(R.styleable.CircularMusicProgressBar_cmp_draw_anticlockwise, DEFAULT_DRAW_ANTI_CLOCKWISE);
+        mFillColor = a.getColor(R.styleable.CircularMusicProgressBar_cmp_fill_color, DEFAULT_FILL_COLOR);
+        mInnrCircleDiammeter = a.getFloat(R.styleable.CircularMusicProgressBar_cmp_centercircle_diammterer, DEFAULT_INNTER_DAIMMETER_FRACTION);
+        mProgressColor = a.getColor(R.styleable.CircularMusicProgressBar_cmp_progress_color, DEFAULT_PROGRESS_COLOR);
+        mBaseStartAngle = a.getFloat(R.styleable.CircularMusicProgressBar_cmp_progress_startAngle, 0);
 
         a.recycle();
         init();
