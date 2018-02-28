@@ -20,12 +20,15 @@ import android.net.Uri;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 
 import info.abdolahi.circularmusicbar.R;
 
 
-public class CircularMusicProgressBar extends android.support.v7.widget.AppCompatImageView {
+public class CircularMusicProgressBar extends AppCompatImageView {
 
     private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;
 
@@ -67,6 +70,8 @@ public class CircularMusicProgressBar extends android.support.v7.widget.AppCompa
     private boolean mDrawAntiClockwise;
     private boolean mDisableCircularTransformation;
     private boolean animationState = true;
+    private OnCircularSeekBarChangeListener onChangeListener;
+
 
     public CircularMusicProgressBar(Context context) {
         super(context);
@@ -82,14 +87,14 @@ public class CircularMusicProgressBar extends android.support.v7.widget.AppCompa
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CircularMusicProgressBar, defStyle, 0);
 
-        mBorderWidth = a.getDimensionPixelSize(R.styleable.CircularMusicProgressBar_border_width, DEFAULT_BORDER_WIDTH);
-        mBorderColor = a.getColor(R.styleable.CircularMusicProgressBar_border_color, DEFAULT_BORDER_COLOR);
-        mBorderOverlay = a.getBoolean(R.styleable.CircularMusicProgressBar_border_overlay, DEFAULT_BORDER_OVERLAY);
-        mDrawAntiClockwise = a.getBoolean(R.styleable.CircularMusicProgressBar_draw_anticlockwise, DEFAULT_DRAW_ANTI_CLOCKWISE);
-        mFillColor = a.getColor(R.styleable.CircularMusicProgressBar_fill_color, DEFAULT_FILL_COLOR);
-        mInnrCircleDiammeter = a.getFloat(R.styleable.CircularMusicProgressBar_centercircle_diammterer, DEFAULT_INNTER_DAIMMETER_FRACTION);
-        mProgressColor = a.getColor(R.styleable.CircularMusicProgressBar_progress_color, DEFAULT_PROGRESS_COLOR);
-        mBaseStartAngle = a.getFloat(R.styleable.CircularMusicProgressBar_progress_startAngle, 0);
+        mBorderWidth = a.getDimensionPixelSize(R.styleable.CircularMusicProgressBar_cmp_border_width, DEFAULT_BORDER_WIDTH);
+        mBorderColor = a.getColor(R.styleable.CircularMusicProgressBar_cmp_border_color, DEFAULT_BORDER_COLOR);
+        mBorderOverlay = a.getBoolean(R.styleable.CircularMusicProgressBar_cmp_border_overlay, DEFAULT_BORDER_OVERLAY);
+        mDrawAntiClockwise = a.getBoolean(R.styleable.CircularMusicProgressBar_cmp_draw_anticlockwise, DEFAULT_DRAW_ANTI_CLOCKWISE);
+        mFillColor = a.getColor(R.styleable.CircularMusicProgressBar_cmp_fill_color, DEFAULT_FILL_COLOR);
+        mInnrCircleDiammeter = a.getFloat(R.styleable.CircularMusicProgressBar_cmp_centercircle_diammterer, DEFAULT_INNTER_DAIMMETER_FRACTION);
+        mProgressColor = a.getColor(R.styleable.CircularMusicProgressBar_cmp_progress_color, DEFAULT_PROGRESS_COLOR);
+        mBaseStartAngle = a.getFloat(R.styleable.CircularMusicProgressBar_cmp_progress_startAngle, 0);
 
         a.recycle();
         init();
@@ -97,14 +102,15 @@ public class CircularMusicProgressBar extends android.support.v7.widget.AppCompa
 
     private void init() {
 
+        setupGestureLitener(getContext());
+
         // init animator
         mValueAnimator = ValueAnimator.ofFloat(0, mProgressValue);
         mValueAnimator.setDuration(DEFAULT_ANIMATION_TIME);
         mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                mProgressValue = (float) valueAnimator.getAnimatedValue();
-                invalidate();
+                setValueWithNoAnimation((float) valueAnimator.getAnimatedValue());
             }
         });
 
@@ -127,6 +133,10 @@ public class CircularMusicProgressBar extends android.support.v7.widget.AppCompa
         if (scaleType != SCALE_TYPE) {
             throw new IllegalArgumentException(String.format("ScaleType %s not supported.", scaleType));
         }
+    }
+
+    public void setOnCircularBarChangeListener(OnCircularSeekBarChangeListener listener) {
+        this.onChangeListener = listener;
     }
 
     @Override
@@ -156,6 +166,7 @@ public class CircularMusicProgressBar extends android.support.v7.widget.AppCompa
             mBorderPaint.setColor(mBorderColor);
             canvas.drawArc(mBorderRect, 0, 360, false, mBorderPaint);
         }
+
         mBorderPaint.setColor(mProgressColor);
 
         float sweetAngle = mProgressValue / 100 * 360;
@@ -180,10 +191,21 @@ public class CircularMusicProgressBar extends android.support.v7.widget.AppCompa
             mValueAnimator.setFloatValues(mProgressValue, newValue);
             mValueAnimator.start();
         } else {
-            mProgressValue = newValue;
-            invalidate();
+            setValueWithNoAnimation(newValue, false);
         }
 
+    }
+
+    public void setValueWithNoAnimation(float newValue) {
+        setValueWithNoAnimation(newValue, false);
+    }
+
+    public void setValueWithNoAnimation(float newValue, boolean fromUser) {
+        if (onChangeListener != null) {
+            onChangeListener.onProgressChanged(this, (int) newValue, fromUser);
+        }
+        mProgressValue = newValue;
+        invalidate();
     }
 
     @Override
@@ -457,6 +479,7 @@ public class CircularMusicProgressBar extends android.support.v7.widget.AppCompa
         if (!mBorderOverlay && mBorderWidth > 0) {
             mDrawableRect.inset(mBorderWidth, mBorderWidth);
         }
+
         mDrawableRadius = Math.min(mDrawableRect.height() / 2, mDrawableRect.width() / 2);
 
         if (mInnrCircleDiammeter > 1) mInnrCircleDiammeter = 1;
@@ -466,6 +489,30 @@ public class CircularMusicProgressBar extends android.support.v7.widget.AppCompa
         applyColorFilter();
         updateShaderMatrix();
         invalidate();
+    }
+
+
+    private static int getMeasurementSize(int measureSpec, int defaultSize) {
+        int mode = MeasureSpec.getMode(measureSpec);
+        int size = MeasureSpec.getSize(measureSpec);
+        switch (mode) {
+            case MeasureSpec.EXACTLY:
+                return size;
+
+            case MeasureSpec.AT_MOST:
+                return Math.min(defaultSize, size);
+
+            case MeasureSpec.UNSPECIFIED:
+            default:
+                return defaultSize;
+        }
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int width = getMeasurementSize(widthMeasureSpec, 600);
+        int height = getMeasurementSize(heightMeasureSpec, 600);
+        setMeasuredDimension(width, height);
     }
 
     private RectF calculateBounds() {
@@ -502,4 +549,102 @@ public class CircularMusicProgressBar extends android.support.v7.widget.AppCompa
     }
 
 
+    /**
+     * ------------------------------------------
+     * ------------------------------------------
+     * ------------ All Things about touch ------
+     * ------------------------------------------
+     * ------------------------------------------
+     */
+
+    private GestureDetector gestureListener;
+
+    public void setupGestureLitener(Context context) {
+        gestureListener = new GestureDetector(context, new GestureDetector.OnGestureListener() {
+
+            @Override
+            public boolean onDown(MotionEvent motionEvent) {
+                if (computeInArea(motionEvent.getX(), motionEvent.getY())) {
+                    getParent().requestDisallowInterceptTouchEvent(true);
+                    if (onChangeListener != null) {
+                        onChangeListener.onClick(CircularMusicProgressBar.this);
+                    }
+                    postInvalidate();
+                    return true;
+                } else if (computeAndSetAngle(motionEvent.getX(), motionEvent.getY())) {
+                    return true;
+                }
+                return false;
+            }
+
+            @Override
+            public void onShowPress(MotionEvent motionEvent) {
+            }
+
+            @Override
+            public boolean onSingleTapUp(MotionEvent motionEvent) {
+                endGesture();
+                return false;
+            }
+
+            @Override
+            public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+                computeAndSetAngle(motionEvent1.getX(), motionEvent1.getY());
+                postInvalidate();
+                return true;
+            }
+
+            @Override
+            public void onLongPress(MotionEvent motionEvent) {
+                if (onChangeListener != null) {
+                    onChangeListener.onLongPress(CircularMusicProgressBar.this);
+                }
+            }
+
+            @Override
+            public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+                return false;
+            }
+        });
+    }
+
+    private boolean computeInArea(float x, float y) {
+        x -= getWidth() / 2;
+        y -= getHeight() / 2;
+        return (Math.sqrt(x * x + y * y) <= ((mDrawableRadius / 3) * 2));
+    }
+
+    private boolean computeAndSetAngle(float x, float y) {
+
+        float circleDiameter = mDrawableRadius + mBorderWidth;
+
+        x -= getWidth() / 2;
+        y -= getHeight() / 2;
+
+        double radius = Math.sqrt(x * x + y * y);
+        if (radius > circleDiameter || radius < ((mDrawableRadius / 3) * 2)) {
+            return false;
+        }
+
+        int angle;
+        if (mDrawAntiClockwise) {
+            angle = (int) ((180.0 * Math.atan2(x, y) / Math.PI) - mBaseStartAngle);
+        } else {
+            angle = (int) ((180.0 * Math.atan2(y, x) / Math.PI) - mBaseStartAngle);
+        }
+        angle = ((angle > 0) ? angle : 360 + angle);
+        float intoPercent = angle * 100 / 360;
+        setValueWithNoAnimation(intoPercent, true);
+        return true;
+    }
+
+    private void endGesture() {
+        getParent().requestDisallowInterceptTouchEvent(false);
+        postInvalidate();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return gestureListener.onTouchEvent(event);
+    }
 }

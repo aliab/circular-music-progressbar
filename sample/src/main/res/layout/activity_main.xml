@@ -14,16 +14,17 @@
 
     <info.abdolahi.CircularMusicProgressBar
         android:id="@+id/album_art"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
         android:src="@drawable/maron5"
-        app:border_color="#00796B"
-        app:border_width="2dp"
-        app:centercircle_diammterer=".97"
-        app:progress_color="#80CBC4"
-        app:progress_startAngle="40" />
+        app:cmp_border_color="#00796B"
+        app:cmp_border_width="2dp"
+        app:cmp_centercircle_diammterer=".97"
+        app:cmp_draw_anticlockwise="false"
+        app:cmp_progress_color="#80CBC4"
+        app:cmp_progress_startAngle="-90" />
 
 
     <TextView
