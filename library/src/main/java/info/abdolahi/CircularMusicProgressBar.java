@@ -41,6 +41,7 @@ public class CircularMusicProgressBar extends AppCompatImageView {
     private static final int DEFAULT_PROGRESS_COLOR = Color.BLUE;
     private static final boolean DEFAULT_BORDER_OVERLAY = false;
     private static final boolean DEFAULT_DRAW_ANTI_CLOCKWISE = false;
+    private static final boolean DEFAULT_ENABLE_TOUCH = false;
     private static float DEFAULT_INNTER_DAIMMETER_FRACTION = 0.805f;
     private final RectF mDrawableRect = new RectF();
     private final RectF mBorderRect = new RectF();
@@ -68,6 +69,7 @@ public class CircularMusicProgressBar extends AppCompatImageView {
     private boolean mSetupPending;
     private boolean mBorderOverlay;
     private boolean mDrawAntiClockwise;
+    private boolean mEnableTouch;
     private boolean mDisableCircularTransformation;
     private boolean animationState = true;
     private OnCircularSeekBarChangeListener onChangeListener;
@@ -91,6 +93,7 @@ public class CircularMusicProgressBar extends AppCompatImageView {
         mBorderColor = a.getColor(R.styleable.CircularMusicProgressBar_cmp_border_color, DEFAULT_BORDER_COLOR);
         mBorderOverlay = a.getBoolean(R.styleable.CircularMusicProgressBar_cmp_border_overlay, DEFAULT_BORDER_OVERLAY);
         mDrawAntiClockwise = a.getBoolean(R.styleable.CircularMusicProgressBar_cmp_draw_anticlockwise, DEFAULT_DRAW_ANTI_CLOCKWISE);
+        mEnableTouch = a.getBoolean(R.styleable.CircularMusicProgressBar_cmp_enable_touch, DEFAULT_ENABLE_TOUCH);
         mFillColor = a.getColor(R.styleable.CircularMusicProgressBar_cmp_fill_color, DEFAULT_FILL_COLOR);
         mInnrCircleDiammeter = a.getFloat(R.styleable.CircularMusicProgressBar_cmp_centercircle_diammterer, DEFAULT_INNTER_DAIMMETER_FRACTION);
         mProgressColor = a.getColor(R.styleable.CircularMusicProgressBar_cmp_progress_color, DEFAULT_PROGRESS_COLOR);
@@ -102,7 +105,9 @@ public class CircularMusicProgressBar extends AppCompatImageView {
 
     private void init() {
 
-        setupGestureLitener(getContext());
+        if (mEnableTouch)   {
+            setupGestureLitener(getContext());
+        }
 
         // init animator
         mValueAnimator = ValueAnimator.ofFloat(0, mProgressValue);

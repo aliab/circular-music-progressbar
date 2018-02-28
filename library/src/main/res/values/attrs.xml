@@ -5,6 +5,7 @@
         <attr name="cmp_border_color" format="color|reference" />
         <attr name="cmp_border_overlay" format="boolean" />
         <attr name="cmp_draw_anticlockwise" format="boolean" />
+        <attr name="cmp_enable_touch" format="boolean" />
         <attr name="cmp_fill_color" format="color|reference" />
         <attr name="cmp_progress_color" format="color|reference" />
         <attr name="cmp_centercircle_diammterer" format="float|reference" />
