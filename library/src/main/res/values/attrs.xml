@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="CircularMusicProgressBar">
-        <attr name="cmp_border_width" format="dimension" />
-        <attr name="cmp_border_color" format="color|reference" />
-        <attr name="cmp_border_overlay" format="boolean" />
-        <attr name="cmp_draw_anticlockwise" format="boolean" />
-        <attr name="cmp_enable_touch" format="boolean" />
-        <attr name="cmp_fill_color" format="color|reference" />
-        <attr name="cmp_progress_color" format="color|reference" />
-        <attr name="cmp_centercircle_diammterer" format="float|reference" />
-        <attr name="cmp_progress_startAngle" format="float|reference" />
+
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color|reference" />
+        <attr name="border_overlay" format="boolean" />
+        <attr name="draw_anticlockwise" format="boolean" />
+        <attr name="enable_touch" format="boolean" />
+        <attr name="fill_color" format="color|reference" />
+        <attr name="progress_color" format="color|reference" />
+        <attr name="centercircle_diammterer" format="float|reference" />
+        <attr name="progress_startAngle" format="float|reference" />
 
     </declare-styleable>
 </resources>

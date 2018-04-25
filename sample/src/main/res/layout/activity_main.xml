@@ -19,14 +19,13 @@
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
         android:src="@drawable/maron5"
-        app:cmp_border_color="#00796B"
-        app:cmp_border_width="2dp"
-        app:cmp_centercircle_diammterer=".97"
-        app:cmp_draw_anticlockwise="false"
-        app:cmp_enable_touch="true"
-        app:cmp_progress_color="#80CBC4"
-        app:cmp_progress_startAngle="-90" />
-
+        app:border_color="#00796B"
+        app:border_width="2dp"
+        app:centercircle_diammterer=".97"
+        app:draw_anticlockwise="false"
+        app:progress_color="#80CBC4"
+        app:enable_touch="true"
+        app:progress_startAngle="-90" />
 
     <TextView
         android:layout_width="match_parent"
