@@ -648,9 +648,10 @@ public class CircularMusicProgressBar extends AppCompatImageView {
         postInvalidate();
     }
 
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (gestureListener == null) {
+        if (gestureListener == null || !mEnableTouch) {
             return false;
         }
         return gestureListener.onTouchEvent(event);
