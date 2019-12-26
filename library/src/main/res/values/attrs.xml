@@ -11,6 +11,7 @@
         <attr name="progress_color" format="color|reference" />
         <attr name="centercircle_diammterer" format="float|reference" />
         <attr name="progress_startAngle" format="float|reference" />
-
+        <attr name="indeterminate" format="boolean" />
+        <attr name="indeterminate_angle" format="float|reference"/>
     </declare-styleable>
 </resources>

@@ -24,6 +24,7 @@ import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.animation.Animation;
 
 import info.abdolahi.circularmusicbar.R;
 
@@ -39,9 +40,11 @@ public class CircularMusicProgressBar extends AppCompatImageView {
     private static final int DEFAULT_BORDER_COLOR = Color.BLACK;
     private static final int DEFAULT_FILL_COLOR = Color.TRANSPARENT;
     private static final int DEFAULT_PROGRESS_COLOR = Color.BLUE;
+    private static final int DEFAULT_INDETERMINATE_ANGLE = 30;
     private static final boolean DEFAULT_BORDER_OVERLAY = false;
     private static final boolean DEFAULT_DRAW_ANTI_CLOCKWISE = false;
     private static final boolean DEFAULT_ENABLE_TOUCH = false;
+    private static final boolean DEFAULT_INDETERMINATE = false;
     private static float DEFAULT_INNTER_DAIMMETER_FRACTION = 0.805f;
     private final RectF mDrawableRect = new RectF();
     private final RectF mBorderRect = new RectF();
@@ -63,7 +66,10 @@ public class CircularMusicProgressBar extends AppCompatImageView {
     private float mDrawableRadius;
     private float mBorderRadius;
     private float mProgressValue = 0;
+    private float mIndeterminateAngle;
+    private float mBaseAngle = 0f;
     private ValueAnimator mValueAnimator;
+    private ValueAnimator mAngleAnimator;
     private ColorFilter mColorFilter;
     private boolean mReady;
     private boolean mSetupPending;
@@ -72,6 +78,7 @@ public class CircularMusicProgressBar extends AppCompatImageView {
     private boolean mEnableTouch;
     private boolean mDisableCircularTransformation;
     private boolean animationState = true;
+    private boolean mIndeterminate;
     private OnCircularSeekBarChangeListener onChangeListener;
 
 
@@ -97,7 +104,10 @@ public class CircularMusicProgressBar extends AppCompatImageView {
         mFillColor = a.getColor(R.styleable.CircularMusicProgressBar_fill_color, DEFAULT_FILL_COLOR);
         mInnrCircleDiammeter = a.getFloat(R.styleable.CircularMusicProgressBar_centercircle_diammterer, DEFAULT_INNTER_DAIMMETER_FRACTION);
         mProgressColor = a.getColor(R.styleable.CircularMusicProgressBar_progress_color, DEFAULT_PROGRESS_COLOR);
+        mIndeterminate = a.getBoolean(R.styleable.CircularMusicProgressBar_indeterminate, DEFAULT_INDETERMINATE);
+        mIndeterminateAngle = a.getFloat(R.styleable.CircularMusicProgressBar_indeterminate_angle, DEFAULT_INDETERMINATE_ANGLE);
         mBaseStartAngle = a.getFloat(R.styleable.CircularMusicProgressBar_progress_startAngle, 0);
+        mBaseAngle = mBaseStartAngle;
 
         a.recycle();
         init();
@@ -118,6 +128,20 @@ public class CircularMusicProgressBar extends AppCompatImageView {
                 setValueWithNoAnimation((float) valueAnimator.getAnimatedValue());
             }
         });
+
+        mAngleAnimator = ValueAnimator.ofFloat(0,360);
+        mAngleAnimator.setDuration(DEFAULT_ANIMATION_TIME);
+        mAngleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                setBaseAngle((float) valueAnimator.getAnimatedValue());
+            }
+        });
+        mAngleAnimator.setRepeatCount(Animation.INFINITE);
+
+        if(mIndeterminate){
+            mAngleAnimator.start();
+        }
 
         super.setScaleType(SCALE_TYPE);
         mReady = true;
@@ -165,7 +189,7 @@ public class CircularMusicProgressBar extends AppCompatImageView {
 
         canvas.save();
 
-        canvas.rotate(mBaseStartAngle, mDrawableRect.centerX(), mDrawableRect.centerY());
+        canvas.rotate(mBaseAngle, mDrawableRect.centerX(), mDrawableRect.centerY());
 
         if (mBorderWidth > 0) {
             mBorderPaint.setColor(mBorderColor);
@@ -175,6 +199,11 @@ public class CircularMusicProgressBar extends AppCompatImageView {
         mBorderPaint.setColor(mProgressColor);
 
         float sweetAngle = mProgressValue / 100 * 360;
+
+        if(mIndeterminate){
+            sweetAngle = mIndeterminateAngle;
+        }
+
         canvas.drawArc(mBorderRect, 0, mDrawAntiClockwise ? -sweetAngle : sweetAngle, false, mBorderPaint);
 
         canvas.restore();
@@ -187,6 +216,12 @@ public class CircularMusicProgressBar extends AppCompatImageView {
     }
 
     public void setValue(float newValue) {
+
+        if(mIndeterminate){
+            mProgressValue = newValue;
+            return;
+        }
+
         if (animationState) {
 
             if (mValueAnimator.isRunning()) {
@@ -576,6 +611,8 @@ public class CircularMusicProgressBar extends AppCompatImageView {
                     }
                     postInvalidate();
                     return true;
+                } else if(mIndeterminate){
+                    return false;
                 } else if (computeAndSetAngle(motionEvent.getX(), motionEvent.getY())) {
                     return true;
                 }
@@ -633,9 +670,9 @@ public class CircularMusicProgressBar extends AppCompatImageView {
 
         int angle;
         if (mDrawAntiClockwise) {
-            angle = (int) ((180.0 * Math.atan2(x, y) / Math.PI) - mBaseStartAngle);
+            angle = (int) ((180.0 * Math.atan2(x, y) / Math.PI) - mBaseAngle);
         } else {
-            angle = (int) ((180.0 * Math.atan2(y, x) / Math.PI) - mBaseStartAngle);
+            angle = (int) ((180.0 * Math.atan2(y, x) / Math.PI) - mBaseAngle);
         }
         angle = ((angle > 0) ? angle : 360 + angle);
         float intoPercent = angle * 100 / 360;
@@ -655,5 +692,36 @@ public class CircularMusicProgressBar extends AppCompatImageView {
             return false;
         }
         return gestureListener.onTouchEvent(event);
+    }
+
+    protected void setBaseAngle(float newAngle) {
+        mBaseAngle = newAngle;
+        invalidate();
+    }
+
+    public void setIndeterminate(boolean indeterminate) {
+        if(indeterminate&&mIndeterminate||!indeterminate&&!mIndeterminate){
+            return;
+        }
+
+        mIndeterminate = indeterminate;
+
+        if(indeterminate){
+            if(mValueAnimator.isRunning()){
+                mValueAnimator.cancel();
+            }
+            mAngleAnimator.start();
+        } else {
+            if(mAngleAnimator.isRunning()){
+                mAngleAnimator.cancel();
+            }
+
+            mBaseAngle = mBaseStartAngle;
+            setValueWithNoAnimation(mProgressValue);
+        }
+    }
+
+    public boolean isIndeterminated() {
+        return mIndeterminate;
     }
 }
