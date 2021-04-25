@@ -27,7 +27,7 @@ allprojects {
 Step 2. Add the dependency
 ```groovy
 dependencies {
-    implementation 'com.github.aliab:circular-music-progressbar:v1.3.0'
+    implementation 'com.github.aliab:circular-music-progressbar:v1.4.0'
 }
 ```
 
