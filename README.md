@@ -7,7 +7,7 @@
 
 ## Description
 
-This Circular Progress bar is a designed and made for music players that need beautiful music progress bar.
+This Circular Progress bar is a designed and made for music players that need beautiful music progress bar. [Choosed for best of the day at uplabs.com](https://www.uplabs.com/posts/android-circular-music-progressbar)
 
 ## Usage
 
@@ -18,16 +18,16 @@ Add it in your root build.gradle at the end of repositories:
 
 ```groovy
 allprojects {
-		repositories {
-			...
-			maven { url "https://jitpack.io" }
-		}
+	repositories {
+		...
+		maven { url "https://jitpack.io" }
 	}
+}
 ```
 Step 2. Add the dependency
 ```groovy
 dependencies {
-    compile 'com.github.aliab:circular-music-progressbar:v1.2.0'
+    implementation 'com.github.aliab:circular-music-progressbar:v1.4.0'
 }
 ```
 
@@ -46,21 +46,20 @@ Then add the view to your layout:
         app:centercircle_diammterer="1"
         app:progress_color="#80CBC4"
         app:progress_startAngle="40"
-		app:draw_anticlockwise="false"/>
+	app:draw_anticlockwise="false" 
+	app:enable_touch="false"/>
 ```
 ## XML attributes
 
 ```xml
     <info.abdolahi.CircularMusicProgressBar
-    	...
         app:border_color="#00796B"
         app:border_width="2dp"
         app:centercircle_diammterer="1"
         app:progress_color="#80CBC4"
         app:progress_startAngle="40"
-		app:draw_anticlockwise="true"
-        ...
-         />
+	app:draw_anticlockwise="true" 
+	app:enable_touch="false"/>
 ```
 
 ## XML attributes
@@ -73,16 +72,19 @@ Then add the view to your layout:
 |progress_color|Color|Color.BLUE| ProgressBar active state color |
 |progress_startAngle|Float| 0 | Number between 0 and 360 that describe Start angle of progress bar active state |
 |draw_anticlockwise|Boolean| false | If set to true, progress will be Anti-Clockwise |
+|enable_touch|Boolean| false | If set to true, progress will track along the touch |
 
 ## Public Methods
 
 | Name | Description |
 |:----:|:----:|
 |setValue(float)| Change value of progress with animation|
+|setValueWithNoAnimation(float)| Change value of progress with animation|
 |setBorderProgressColor(Color)| Set progressbar active state color |
 |setBorderColor(Color)| Set progressbar non-active state color |
 |setProgressAnimationState(boolean)| Change state of progress value animation. set it to 'false' if you don't want any animation|
 |setProgressAnimatorInterpolator(TimeInterpolator)| Change interpolator of animation to get more effect on animation|
+|setOnCircularBarChangeListener(OnCircularSeekBarChangeListener listener)|Get an update if user want to seek to position or click on image|
 
 Note: Because I extended ImageView you can use all ImageView public methods too.
 
@@ -98,12 +100,22 @@ Limitations
  * ~~Animation interpolator setter~~
  * ~~Animation disable/enable method~~
  * ~~Support Anti-Clockwise progress~~
+ * ~~Drag to seek listener~~
  * Buffering mode animation
- * Drag to seek listener
  * Change thickness of borderes independently
  * Support shadow/glow
 
 ## Changelog
+
+### v1.4.0
+
+ * Ability to disable touch
+ * Some minor improvements
+ 
+### v1.3.0
+
+ * Support drag to specific position
+ * Some measurement bug fix
 
 ### v1.2.0
 
@@ -134,7 +146,7 @@ Limitations
    
 The MIT License (MIT)
 
-Copyright (c) 2016 Ali Abdolahi
+Copyright (c) 2017 Ali Abdolahi
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

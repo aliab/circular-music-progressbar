@@ -24,8 +24,8 @@
         app:centercircle_diammterer=".97"
         app:draw_anticlockwise="false"
         app:progress_color="#80CBC4"
+        app:enable_touch="true"
         app:progress_startAngle="-90" />
-
 
     <TextView
         android:layout_width="match_parent"
