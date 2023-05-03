@@ -99,7 +99,6 @@ com_crashlytics_export_strings.xml
 *~
 *.swp
 import-summary.txt
-gradle.properties
 
 # OS-specific files
 .DS_Store
