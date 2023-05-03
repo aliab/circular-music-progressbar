@@ -43,7 +43,7 @@ public class CircularMusicProgressBar extends AppCompatImageView {
     private static final boolean DEFAULT_BORDER_OVERLAY = false;
     private static final boolean DEFAULT_DRAW_ANTI_CLOCKWISE = false;
     private static final boolean DEFAULT_ENABLE_TOUCH = false;
-    private static float DEFAULT_INNTER_DAIMMETER_FRACTION = 0.805f;
+    private static final float DEFAULT_INNTER_DAIMMETER_FRACTION = 0.805f;
     private final RectF mDrawableRect = new RectF();
     private final RectF mBorderRect = new RectF();
 
