@@ -37,15 +37,14 @@ dependencies {
     implementation "androidx.appcompat:appcompat:1.6.1"
 }
 
-publishing {
-    publications {
-        release(MavenPublication) {
-            groupId = PUBLISH_GROUP_ID
-            artifactId = PUBLISH_ARTIFACT_ID
-            version = PUBLISH_VERSION
-
-            afterEvaluate {
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
                 from components.release
+                groupId = PUBLISH_GROUP_ID
+                artifactId = PUBLISH_ARTIFACT_ID
+                version = PUBLISH_VERSION
             }
         }
     }
