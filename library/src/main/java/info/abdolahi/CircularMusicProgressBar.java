@@ -17,13 +17,14 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DrawableRes;
-import android.support.v7.widget.AppCompatImageView;
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+
+import androidx.appcompat.widget.AppCompatImageView;
 
 import info.abdolahi.circularmusicbar.R;
 
@@ -42,7 +43,7 @@ public class CircularMusicProgressBar extends AppCompatImageView {
     private static final boolean DEFAULT_BORDER_OVERLAY = false;
     private static final boolean DEFAULT_DRAW_ANTI_CLOCKWISE = false;
     private static final boolean DEFAULT_ENABLE_TOUCH = false;
-    private static float DEFAULT_INNTER_DAIMMETER_FRACTION = 0.805f;
+    private static final float DEFAULT_INNTER_DAIMMETER_FRACTION = 0.805f;
     private final RectF mDrawableRect = new RectF();
     private final RectF mBorderRect = new RectF();
 

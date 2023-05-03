@@ -1,9 +1,10 @@
 package info.abdolahi.circularmusicbarsample;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Random;
 
