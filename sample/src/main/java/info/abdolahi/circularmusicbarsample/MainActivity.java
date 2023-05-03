@@ -3,6 +3,7 @@ package info.abdolahi.circularmusicbarsample;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     CircularMusicProgressBar progressBar;
+    ImageButton playButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         progressBar = findViewById(R.id.album_art);
+        playButton = findViewById(R.id.play);
 
         // set progress to 40%
         progressBar.setValue(40);
@@ -48,11 +51,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // get onClick data
-        progressBar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateRandomly();
-            }
+        progressBar.setOnClickListener(view -> updateRandomly());
+
+        playButton.setOnClickListener(v -> {
+            progressBar.setIndeterminate(!progressBar.isIndeterminated());
         });
 
     }
