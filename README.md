@@ -75,7 +75,7 @@ Then add the view to your layout:
 |draw_anticlockwise|Boolean| false | If set to true, progress will be Anti-Clockwise |
 |enable_touch|Boolean| false | If set to true, progress will track along the touch |
 |indeterminate|Boolean| false | if set to true, will switch to indeterminate state |
-|indeterminate_angle|Float|set the base angle for indeterminate state |
+|indeterminate_angle|Float|0|set the base angle for indeterminate state |
 
 ## Public Methods
 
