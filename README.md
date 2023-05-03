@@ -27,7 +27,7 @@ allprojects {
 Step 2. Add the dependency
 ```groovy
 dependencies {
-    implementation 'com.github.aliab:circular-music-progressbar:v1.4.0'
+    implementation 'com.github.aliab:circular-music-progressbar:1.5.0'
 }
 ```
 
@@ -59,6 +59,7 @@ Then add the view to your layout:
         app:progress_color="#80CBC4"
         app:progress_startAngle="40"
 	app:draw_anticlockwise="true" 
+	app:indeterminate="false"				    
 	app:enable_touch="false"/>
 ```
 
@@ -73,6 +74,8 @@ Then add the view to your layout:
 |progress_startAngle|Float| 0 | Number between 0 and 360 that describe Start angle of progress bar active state |
 |draw_anticlockwise|Boolean| false | If set to true, progress will be Anti-Clockwise |
 |enable_touch|Boolean| false | If set to true, progress will track along the touch |
+|indeterminate|Boolean| false | if set to true, will switch to indeterminate state |
+|indeterminate_angle|Float|0|set the base angle for indeterminate state |
 
 ## Public Methods
 
@@ -85,6 +88,9 @@ Then add the view to your layout:
 |setProgressAnimationState(boolean)| Change state of progress value animation. set it to 'false' if you don't want any animation|
 |setProgressAnimatorInterpolator(TimeInterpolator)| Change interpolator of animation to get more effect on animation|
 |setOnCircularBarChangeListener(OnCircularSeekBarChangeListener listener)|Get an update if user want to seek to position or click on image|
+|setIndeterminate(boolean indeterminate)|switch to indeterminate state|
+|isIndeterminated()|return true if is in indeterminate state|
+|setBaseAngle(float newAngle)|set base angle for indeterminate state|
 
 Note: Because I extended ImageView you can use all ImageView public methods too.
 
@@ -101,11 +107,16 @@ Limitations
  * ~~Animation disable/enable method~~
  * ~~Support Anti-Clockwise progress~~
  * ~~Drag to seek listener~~
- * Buffering mode animation
+ * ~~Buffering mode animation~~
  * Change thickness of borderes independently
  * Support shadow/glow
 
 ## Changelog
+### 1.5.0
+ 
+ * Add support for indeterminate mode
+ * Upgrade to Gradle 8.0.0
+ * Migrate to AndroidX
 
 ### v1.4.0
 
@@ -146,7 +157,7 @@ Limitations
    
 The MIT License (MIT)
 
-Copyright (c) 2017 Ali Abdolahi
+Copyright (c) 2023 Ali Abdolahi
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
