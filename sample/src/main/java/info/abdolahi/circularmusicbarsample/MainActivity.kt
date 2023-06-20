@@ -3,6 +3,7 @@ package info.abdolahi.circularmusicbarsample
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import info.abdolahi.CircularMusicProgressBar
 import info.abdolahi.OnCircularSeekBarChangeListener
 import info.abdolahi.circularmusicbarsample.databinding.ActivityMainBinding
 import java.util.Random
