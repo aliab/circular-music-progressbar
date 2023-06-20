@@ -1,67 +1,65 @@
-package info.abdolahi.circularmusicbarsample;
+package info.abdolahi.circularmusicbarsample
 
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageButton;
+import android.os.Bundle
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import info.abdolahi.OnCircularSeekBarChangeListener
+import info.abdolahi.circularmusicbarsample.databinding.ActivityMainBinding
+import java.util.Random
 
-import androidx.appcompat.app.AppCompatActivity;
+class MainActivity : AppCompatActivity() {
 
-import java.util.Random;
+    private var _binding: ActivityMainBinding? = null
+    private val binding get() = _binding!!
 
-import info.abdolahi.CircularMusicProgressBar;
-import info.abdolahi.OnCircularSeekBarChangeListener;
-
-public class MainActivity extends AppCompatActivity {
-
-    private static final String TAG = "MainActivity";
-
-    CircularMusicProgressBar progressBar;
-    ImageButton playButton;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        progressBar = findViewById(R.id.album_art);
-        playButton = findViewById(R.id.play);
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // set progress to 40%
-        progressBar.setValue(40);
+        binding.circularMusicProgressBar.setValue(40f)
 
         // get user update
-        progressBar.setOnCircularBarChangeListener(new OnCircularSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(CircularMusicProgressBar circularBar, int progress, boolean fromUser) {
-                Log.d(TAG, "onProgressChanged: progress: " + progress + " / from user? " + fromUser);
+        binding.circularMusicProgressBar.setOnCircularBarChangeListener(object :
+            OnCircularSeekBarChangeListener {
+            override fun onProgressChanged(
+                circularBar: CircularMusicProgressBar?,
+                progress: Int,
+                fromUser: Boolean
+            ) {
+                Log.d(
+                    TAG,
+                    "onProgressChanged: progress: $progress / from user? $fromUser"
+                )
             }
 
-            @Override
-            public void onClick(CircularMusicProgressBar circularBar) {
-                Log.d(TAG, "onClick");
-                updateRandomly();
+            override fun onClick(circularBar: CircularMusicProgressBar?) {
+                Log.d(TAG, "onClick")
+                updateRandomly()
             }
 
-            @Override
-            public void onLongPress(CircularMusicProgressBar circularBar) {
-                Log.d(TAG, "onLongPress");
+            override fun onLongPress(circularBar: CircularMusicProgressBar?) {
+                Log.d(TAG, "onLongPress")
             }
-
-        });
+        })
 
         // get onClick data
-        progressBar.setOnClickListener(view -> updateRandomly());
-
-        playButton.setOnClickListener(v -> {
-            progressBar.setIndeterminate(!progressBar.isIndeterminated());
-        });
-
+        binding.circularMusicProgressBar.setOnClickListener { updateRandomly() }
+        binding.play.setOnClickListener {
+            binding.circularMusicProgressBar.setIndeterminate(
+                !binding.circularMusicProgressBar.isIndeterminated()
+            )
+        }
     }
 
-    private void updateRandomly() {
-        Random random = new Random();
-        final float percent = random.nextFloat() * 100;
-        progressBar.setValue(percent);
+    private fun updateRandomly() {
+        val random = Random()
+        val percent = random.nextFloat() * 100
+        binding.circularMusicProgressBar.setValue(percent)
+    }
+
+    companion object {
+        private const val TAG = "MainActivity"
     }
 }
