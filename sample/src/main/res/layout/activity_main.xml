@@ -13,7 +13,7 @@
     tools:context="info.abdolahi.circularmusicbarsample.MainActivity">
 
     <info.abdolahi.CircularMusicProgressBar
-        android:id="@+id/album_art"
+        android:id="@+id/circularMusicProgressBar"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_gravity="center"
